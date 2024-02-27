@@ -1,0 +1,36 @@
+// upload.html.ts
+const htmlContent = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File Upload to Firebase Storage</title>
+</head>
+<body>
+  <h1>Upload Image to Firebase Storage</h1>
+  <form action="http://localhost:3000/upload" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" accept="image/*" required>
+    <button type="submit">Upload</button>
+  </form>
+
+  <h2>Uploaded Files</h2>
+  <ul id="fileList"></ul>
+
+  <script>
+    // Fetch uploaded file list
+    fetch('http://localhost:3000/upload')
+      .then(response => response.json())
+      .then(data => {
+        const fileList = document.getElementById('fileList');
+        const listItem = document.createElement('li');
+        listItem.textContent = data.filename;
+        fileList.appendChild(listItem);
+      })
+      .catch(error => console.error('Error fetching file list:', error));
+  </script>
+</body>
+</html>
+`;
+
+export default htmlContent;
