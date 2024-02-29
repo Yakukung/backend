@@ -1,4 +1,6 @@
+//index.ts
 import express from "express";
+// import { router as uploadRouter } from "./upload";
 
 export const router = express.Router();
 
