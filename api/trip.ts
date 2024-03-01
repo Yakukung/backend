@@ -2,50 +2,9 @@ import express from "express";
 import { conn, queryAsync } from "../dbconnect";
 import { mysql } from "../dbconnect"
 import { TripPostRequest } from "../model/trip.post.req";
-import { users } from "../api/user";
+import { users } from "../model/user";
 import bodyParser from 'body-parser';
 export const router = express.Router();
-
-// router.get("/:idx?", (req, res) => {
-//     const { idx } = req.params;
-//     // ตรวจสอบว่าระบุ idx หรือไม่
-//     if (idx) {
-//       // กรณีระบุ idx ให้ค้นหาข้อมูลเฉพาะ idx ที่ระบุ
-//       conn.query('SELECT * FROM trip WHERE idx = ?', [idx], (err, result, fields) => {
-//         if (err) {
-//           console.error(err);
-//           res.status(500).json({ error: 'Internal Server Error' });
-//           return;
-//         }
-//         // ตรวจสอบว่ามีข้อมูลหรือไม่
-//         if (result.length === 0) {
-//           res.status(404).json({ error: 'Not Found' });
-//         } else {
-//           res.json(result[0]);
-//         }
-//       });
-      
-//     }else {
-//       // กรณีไม่ระบุ idx ให้แสดงข้อมูลทั้งหมด
-//       conn.query('SELECT * FROM trip', (err, result, fields) => {
-//         if (err) {
-//           console.error(err);
-//           res.status(500).json({ error: 'Internal Server Error' });
-//           return;
-//         }
-//         res.json(result);
-//       });
-//     }
-//   });
-
-// router.get("/:id", (req, res) => {
-//     let id = +req.params.id;
-//     conn.query("select * from trip where idx = ?" , [id], (err, result, fields) => {
-//     if (err) throw err;
-//       res.json(result);
-//     }
-//     );
-//   });
 
 
 //แสดงข้อมูล User ทั้งหมด
@@ -55,11 +14,43 @@ router.post("/", (req, res) => {
   });
 });
 
-// router.get("/", (req, res) => {
-//   conn.query('select * from trip', (err, result, fields)=>{
-//     res.json(result);
-//   });
-// });
+  // router.post("/:user_id", (req, res) => {
+  //   const { user_id } = req.params;
+  
+  //   conn.query('SELECT * FROM users WHERE user_id = ?', [user_id], (err, result, fields) => {
+  //     if (err) {
+  //       console.error(err);
+  //       res.status(500).json({ error: 'Internal Server Error' });
+  //       return;
+  //     }
+  
+  //     if (result.length === 0) {
+  //       res.status(404).json({ error: 'Not Found' });
+  //     } else {
+  //       res.json(result[0]);
+  //     }
+  //   });
+  // });
+
+  router.post("/:id", (req, res) => {
+    const user_id = req.body.id;
+  
+    conn.query(
+      "SELECT * FROM users WHERE user_id = ?",
+      [user_id],
+      (err, result, fields) => {
+        if (err) {
+          console.error(err);
+          res.status(500).json({ error: "Internal Server Error" });
+          return;
+        }
+  
+        res.json(result);
+      }
+    );
+  });
+  
+  
 
 // ล็อคอิน
 router.post("/signin", (req, res) => {
@@ -265,33 +256,33 @@ router.post("/signin", (req, res) => {
 
 
 
+///ไว้ค้นหา Trip ของอาจารย์
+
+// router.get("/", (req, res) => {
+//     conn.query('select * from trip', (err, result, fields)=>{
+//       res.json(result);
+//     });
+//   });
 
 
-// // router.get("/", (req, res) => {
-// //     conn.query('select * from trip', (err, result, fields)=>{
-// //       res.json(result);
-// //     });
-// //   });
-
-
-// //   router.get("/:idx", (req, res) => {
-// //     const { idx } = req.params;
+//   router.get("/:idx", (req, res) => {
+//     const { idx } = req.params;
   
-// //     conn.query('SELECT * FROM trip WHERE idx = ?', [idx], (err, result, fields) => {
-// //       if (err) {
-// //         console.error(err);
-// //         res.status(500).json({ error: 'Internal Server Error' });
-// //         return;
-// //       }
+//     conn.query('SELECT * FROM trip WHERE idx = ?', [idx], (err, result, fields) => {
+//       if (err) {
+//         console.error(err);
+//         res.status(500).json({ error: 'Internal Server Error' });
+//         return;
+//       }
   
-// //       // ตรวจสอบว่ามีข้อมูลหรือไม่
-// //       if (result.length === 0) {
-// //         res.status(404).json({ error: 'Not Found' });
-// //       } else {
-// //         res.json(result[0]);
-// //       }
-// //     });
-// //   });
+//       // ตรวจสอบว่ามีข้อมูลหรือไม่
+//       if (result.length === 0) {
+//         res.status(404).json({ error: 'Not Found' });
+//       } else {
+//         res.json(result[0]);
+//       }
+//     });
+//   });
 
 
 

@@ -12,6 +12,7 @@ export { mysql };
 
 export const queryAsync = util.promisify(conn.query).bind(conn);
 
+
 // import mysql from "mysql";
 // import util from "util";
 // export const conn = mysql.createPool({
