@@ -2,6 +2,8 @@ import express from "express";
 import { conn, queryAsync } from "../dbconnect";
 import { users } from "../model/user";
 import bodyParser from 'body-parser';
+import multer from "multer";
+import fs from 'fs';
 
 export const router = express.Router();
 
@@ -113,6 +115,8 @@ router.post("/profile", (req, res) => {
   });
 });
 
+
+
 //แสดงข้อมูล  โหวต  2 คน
 router.post("/vote", (req, res) => {
   conn.query('SELECT * FROM posts INNER JOIN users ON posts.user_id = users.user_id;', (err, result, fields) => {
@@ -151,9 +155,7 @@ router.put("/vote/", (req, res) => {
       console.error('Error updating score:', updateErr);
       res.status(500).json({ error: "Error updating score" });
     } else {
-      // ตรวจสอบว่ามีการอัปเดต score ที่ post_id ไหน
       if (updateResult.affectedRows === 0) {
-        // ไม่มีการอัปเดตเพราะไม่พบ post_id ที่ตรงกัน
         res.status(404).json({ error: "Post not found for the given post_id" });
       } else {
         conn.query('SELECT * FROM posts WHERE post_id = ?', [postId], (selectErr, selectResult) => {
@@ -207,6 +209,10 @@ router.put("/ranking/", (req, res) => {
     });
   });
 });
+
+
+
+
 
 
 
